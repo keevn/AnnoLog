@@ -1,0 +1,2 @@
+cbird={'type':['bird'], 'f':['canfly']}
+camph={'type':['amph'], 'f':['canswim']}
