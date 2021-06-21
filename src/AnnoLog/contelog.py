@@ -16,7 +16,7 @@ class ConteLog:
         if len(q.df.shape[0]) == 0:
             print('no.')
         else:
-            print('yes')
+            print('yes.')
             for _, row in q.df.iterrows():
                 print(q.generate_query_result(row.to_dict()))
 

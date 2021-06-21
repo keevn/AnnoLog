@@ -37,5 +37,31 @@ class contextCase(unittest.TestCase):
         print(cf1.unify(l5))
 
 
+    def test_parseContext(self):
+        text = 'cbird={\'type\':[\'bird\'], \'f\':[\'canfly\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(text, str(ct))
+
+        text = 'camph={\'type\':[\'amph\'], \'f\':[\'canswim\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(text, str(ct))
+
+        text = 'AmAh={\'type\':[\'amph\'], \'f\':[\'canswim\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(None, str(ct))
+
+        text = 'camph={\'type\':[\'amph\',\'amph\'], \'f\':[\'canswim\',\'amph\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(text, str(ct))
+
+        text = 'camph={\'type\':[\'amph\',\'amph\', \'f\':[\'canswim\',\'amph\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(None, str(ct))
+
+        text = 'camph={\'type\':[\'amph\',\'amph\', \'A\':[\'canswim\',\'amph\']}'
+        ct = context.parseContext(text)
+        self.assertEqual(None, str(ct))
+
+
 if __name__ == '__main__':
     unittest.main()
