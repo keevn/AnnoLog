@@ -50,7 +50,7 @@ class fact:
         #   arguments pattern : \([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)
         #   contexts pattern : (@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*
         # end with '\.'
-        # [\s]* means any number of blanks
+        # [\s]* means any number of space or blank characters
         fact_pattern = re.compile(
             r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
         m = fact_pattern.match(line)
