@@ -33,25 +33,25 @@ class context:
 
         return self.name == other.name and len(common_pairs) == len(self.dims)
 
-    def unify(self, l) -> dict:
+    def unify(self, literal) -> dict:
         unified_Variable = {}
 
-        if l.context is None:
+        if literal.context is None:
             return None
 
-        for ct in l.context:
+        for ct in literal.context:
             if isinstance(ct.name, variable):
                 unified_Variable[ct.name.varName] = self.name
             elif self.name != ct.name:
                 return None
 
-        if l.predicate in self.dims:
-            if len(l.arguments) != len(self.dims[l.predicate].arguments):
+        if literal.predicate in self.dims:
+            if len(literal.arguments) != len(self.dims[literal.predicate].arguments):
                 return None
-            for i, argument in enumerate(l.arguments):
+            for i, argument in enumerate(literal.arguments):
                 if isinstance(argument, variable):
-                    unified_Variable[argument.varName] = self.dims[l.predicate].arguments[i]
-                elif self.dims[l.predicate].arguments[i] != argument:
+                    unified_Variable[argument.varName] = self.dims[literal.predicate].arguments[i]
+                elif self.dims[literal.predicate].arguments[i] != argument:
                     return None
         else:
             return None
