@@ -82,7 +82,7 @@ class factsCase(unittest.TestCase):
         f = fact.parseFact(text)
         self.assertEqual(None, f)
 
-        text = 'abc   (  parrot  ,  bird, birda   )@  a + b .'
+        text = 'abc   (  parrot  ,  bird, birda   ) @  a + b .'
         f = fact.parseFact(text)
         self.assertEqual('abc(parrot,bird,birda)@a+b.', str(f))
 
