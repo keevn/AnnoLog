@@ -1,4 +1,5 @@
 import abc
+from AnnoLog.variable import variable
 
 
 class builtin_predicate(metaclass=abc.ABCMeta):
@@ -25,16 +26,53 @@ class builtin_predicate(metaclass=abc.ABCMeta):
 
 
 class equal(builtin_predicate):
+    def __init__(self, arguments: [str]):
+        super(equal, self).__init__(arguments)
+        if len(self.arguments) != 2:
+            raise WrongNumberOfArgumentsError
+        self.values = [None] * 2
+
     def reset_df(self):
         pass
 
     def filter(self, resolution) -> dict:
-        pass
+        if isinstance(self.arguments[0], variable):
+            self.values[0] = resolution[str(self.arguments[0])]
+        else:
+            self.values[0] = self.arguments[0]
+
+        if isinstance(self.arguments[1], variable):
+            self.values[1] = resolution[str(self.arguments[1])]
+        else:
+            self.values[1] = self.arguments[1]
+
+        return self.values[0] == self.values[1]
 
 
 class unequal(builtin_predicate):
+    def __init__(self, arguments: [str]):
+        super(unequal, self).__init__(arguments)
+        if len(self.arguments) != 2:
+            raise WrongNumberOfArgumentsError
+        self.values = [None] * 2
+
     def reset_df(self):
         pass
 
     def filter(self, resolution) -> dict:
-        pass
+        if isinstance(self.arguments[0], variable):
+            self.values[0] = resolution[str(self.arguments[0])]
+        else:
+            self.values[0] = self.arguments[0]
+
+        if isinstance(self.arguments[1], variable):
+            self.values[1] = resolution[str(self.arguments[1])]
+        else:
+            self.values[1] = self.arguments[1]
+
+        return self.values[0] != self.values[1]
+
+
+class WrongNumberOfArgumentsError(Exception):
+    """Base class for other exceptions"""
+    pass

@@ -6,6 +6,8 @@ from AnnoLog.context import context
 from AnnoLog.rule import rule
 from AnnoLog.ConteLog import ConteLog
 from AnnoLog.head import head
+from AnnoLog.body import body
+from AnnoLog.builtin_predicate import unequal
 
 
 class conteLogCase(unittest.TestCase):
@@ -29,25 +31,25 @@ class conteLogCase(unittest.TestCase):
         l1 = literal('a', [variable('X'), variable('Y')])
         l2 = literal('type', [variable('Y')], ct=[context(variable('C'))])
 
-        body = [l1, l2]
+        b = body([l1, l2])
 
-        rule1 = rule(h, body)
+        rule1 = rule(h, b)
 
         h = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('a', [variable('X'), variable('Z')])
         l2 = literal('a', [variable('Z'), variable('Y')], ct=[context(variable('C'))])
 
-        body = [l1, l2]
+        b = body([l1, l2])
 
-        rule2 = rule(h, body)
+        rule2 = rule(h, b)
 
         h = head('f', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('a', [variable('X'), variable('Z')], ct=[context(variable('C'))])
         l2 = literal('f', [variable('Y')], ct=[context(variable('C'))])
 
-        body = [l1, l2]
+        b = body([l1, l2])
 
-        rule3 = rule(h, body)
+        rule3 = rule(h, b)
 
         rules = [rule1, rule2, rule3]
 
@@ -95,28 +97,48 @@ class conteLogCase(unittest.TestCase):
         l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l3 = literal('$arabic', [variable('C')])
 
-        body = [l1, l2, l3]
+        b = body([l1, l2, l3])
 
-        rule1 = rule(h, body)
+        rule1 = rule(h, b)
 
         h = head('english_farsi', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('word', [variable('X')])
         l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l3 = literal('$farsi', [variable('C')])
 
-        body = [l1, l2, l3]
+        b = body([l1, l2, l3])
 
-        rule2 = rule(h, body)
+        rule2 = rule(h, b)
 
         h = head('arabic_farsi', [variable('Y'), variable('Z')], ct=[context(variable('C')), context(variable('W'))])
         l1 = literal('english_arabic', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l2 = literal('english_farsi', [variable('X'), variable('Z')], ct=[context(variable('W'))])
 
-        body = [l1, l2]
+        b = body([l1, l2])
 
-        rule3 = rule(h, body)
+        rule3 = rule(h, b)
 
-        rules = [rule1, rule2, rule3]
+        # all_translations(X, Y) @ C: -word(X), meaning(X, Y) @ C.
+        h = head('all_translations', [variable('X'), variable('Y')], ct=[context(variable('C'))])
+        l1 = literal('word', [variable('X')])
+        l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
+        b = body([l1, l2])
+
+        rule4 = rule(h, b)
+
+
+        # across_translation(X, Y) @ C + W: -all_translations(Z, X) @ C, all_translations(Z, Y) @ W.
+
+        h = head('across_translation', [variable('X'), variable('Y')], ct=[context(variable('C')),context(variable('W'))])
+        l1 = literal('all_translations', [variable('Z'),variable('X')], ct=[context(variable('C'))])
+        l2 = literal('all_translations', [variable('Z'), variable('Y')], ct=[context(variable('W'))])
+        e1 = unequal([variable('C'), variable('W')])
+        b = body([l1, l2], [e1])
+
+        rule5 = rule(h, b)
+
+
+        rules = [rule1, rule2, rule3, rule4, rule5]
 
         contelogCode = ConteLog(factList, contextList, rules)
 
@@ -134,8 +156,16 @@ class conteLogCase(unittest.TestCase):
                          '\n**english_arabic(sky,samaa)@ca2.'
                          '\n**english_farsi(door,dar)@cf1.'
                          '\n**english_farsi(sky,asaman)@cf2.'
+                         '\n**all_translations(door,dar)@cf1.'
+                         '\n**all_translations(door,bab)@ca1.'
+                         '\n**all_translations(sky,asaman)@cf2.'
+                         '\n**all_translations(sky,samaa)@ca2.'
                          '\n**arabic_farsi(bab,dar)@ca1+cf1.'
-                         '\n**arabic_farsi(samaa,asaman)@ca2+cf2.', str(contelogCode))
+                         '\n**arabic_farsi(samaa,asaman)@ca2+cf2.'
+                         '\n**across_translation(dar,bab)@cf1+ca1.'
+                         '\n**across_translation(bab,dar)@ca1+cf1.'
+                         '\n**across_translation(asaman,samaa)@cf2+ca2.'
+                         '\n**across_translation(samaa,asaman)@ca2+cf2.', str(contelogCode))
 
 
 if __name__ == '__main__':

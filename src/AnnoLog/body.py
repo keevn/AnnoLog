@@ -22,9 +22,11 @@ class body:
             if new_fact_df.empty:
                 return
             elif not self.literals[i + 1].df.empty:
-                common_variables = list(set(new_fact_df.columns).intersection(set(self.body[i + 1].df.columns)))
-                new_fact_df = pd.merge(new_fact_df, self.body[i + 1].df, on=common_variables).drop_duplicates() \
+                common_variables = list(set(new_fact_df.columns).intersection(set(self.literals[i + 1].df.columns)))
+                new_fact_df = pd.merge(new_fact_df, self.literals[i + 1].df, on=common_variables).drop_duplicates() \
                     .reset_index(drop=True)
+            else:
+                return
         print(new_fact_df)
 
         resolutions = []
@@ -32,10 +34,13 @@ class body:
             resolutions.append(row.to_dict())
 
         self.resolutions =[]
-        for expression in self.expressions:
-            for resolution in resolutions:
-                if expression.filter(resolution) is not None:
-                    self.resolutions.append(resolution)
+        if self.expressions is not None:
+            for expression in self.expressions:
+                for resolution in resolutions:
+                    if expression.filter(resolution):
+                        self.resolutions.append(resolution)
+        else:
+            self.resolutions = resolutions
 
         return self.resolutions
 

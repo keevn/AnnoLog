@@ -1,11 +1,11 @@
 import unittest
 from AnnoLog.literal import literal
 from AnnoLog.head import head
+from AnnoLog.body import body
 from AnnoLog.variable import variable
 from AnnoLog.fact import fact
 from AnnoLog.context import context
 from AnnoLog.rule import rule
-import pandas as pd
 
 
 class ruleCase(unittest.TestCase):
@@ -28,9 +28,9 @@ class ruleCase(unittest.TestCase):
         h = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('a', [variable('X'), variable('Y')])
         l2 = literal('type', [variable('Y')], ct=[context(variable('C'))])
-        body = [l1, l2]
+        b = body([l1, l2])
 
-        rule1 = rule(h, body)
+        rule1 = rule(h, b)
 
         new_facts = rule1.new_facts(rule1.unify(factList, contextList))
         self.assertEqual(2, len(new_facts))
@@ -73,9 +73,9 @@ class ruleCase(unittest.TestCase):
         l1 = literal('word', [variable('X')])
         l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l3 = literal('$arabic', [variable('C')])
-        body = [l1, l2, l3]
+        b = body([l1, l2, l3])
 
-        rule1 = rule(h, body)
+        rule1 = rule(h, b)
 
         new_facts = rule1.new_facts(rule1.unify(factList, contextList))
         self.assertEqual(2, len(new_facts))
@@ -86,8 +86,8 @@ class ruleCase(unittest.TestCase):
         l1.reset_df()
         l2.reset_df()
         l4 = literal('$farsi', [variable('C')])
-        body = [l1, l2, l4]
-        rule2 = rule(h, body)
+        b = body([l1, l2, l4])
+        rule2 = rule(h, b)
         new_facts = rule2.new_facts(rule2.unify(factList, contextList))
         for f in new_facts:
             print(f)
