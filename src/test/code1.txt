@@ -1,7 +1,7 @@
-a(parrot,bird).
+a(parrot,bird,birda).
 a(frog,amph).
 a(parakeet,parrot).
-a(tods,frog).
-a(X,Y)@C:-a(X,Y),type(Y)@C.
-a(X,Y)@C:-a(X,Z), a(Z,Y)@C.
-f(X,Y)@C:-a(X,Z)@C,f(Y)@C.
+a(tods,frog)@ca1.
+a(X,Y)@C:-a(X,Y),a(X,Y),type(Y)@C.
+a(X,Y):-a(X,Z),a(Z,Y)@C.
+f(X,Y)@C+W:-a(X,Z)@C,f(Y)@C.

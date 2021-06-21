@@ -30,3 +30,7 @@ class rule:
                 new_fact = self.head.generate_name_fact(resolution)
                 facts.append(new_fact)
         return facts
+
+    @staticmethod
+    def parseRule(line):
+        return None

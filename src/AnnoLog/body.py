@@ -33,7 +33,7 @@ class body:
         for _, row in new_fact_df.iterrows():
             resolutions.append(row.to_dict())
 
-        self.resolutions =[]
+        self.resolutions = []
         if self.expressions is not None:
             for expression in self.expressions:
                 for resolution in resolutions:

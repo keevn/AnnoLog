@@ -1,6 +1,6 @@
 from AnnoLog.variable import variable
 from AnnoLog.context import context
-
+import re
 
 class fact:
     def __init__(self, predicate: str, arguments: [str], ct: [context] = None, genetic: bool = True):
@@ -36,6 +36,40 @@ class fact:
             return False
         else:
             return self.predicate == other.predicate and self.arguments == other.arguments
+
+    @staticmethod
+    def parseFact(line):
+        constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
+        fact_pattern = re.compile(
+            r'([a-z][a-z|\d|_]*)\(([a-z][a-z|\d|_|,]*)\)(@[a-z][a-z|\d|_|+]*)?\.')
+        m = fact_pattern.match(line)
+        if m:
+            fact_components = list(m.groups())
+            predicate = fact_components[0]
+            arguments = fact_components[1].split(',')
+            find_match = True
+            for arg in arguments:
+                if arg is None or arg == '':
+                    find_match = False
+                    break
+
+            ct = fact_components[-1]
+            ct_list = None
+            if find_match:
+                if ct is not None:
+                    ct_list = []
+                    ct_name_list = fact_components[-1][1:].split('+')
+                    for ct_name in ct_name_list:
+                        if ct_name is None or ct_name == '':
+                            find_match = False
+                            return None
+                        elif constant_pattern.match(ct_name):
+                            ct_list.append(context(ct_name))
+                if find_match:
+                    return fact(predicate, arguments, ct_list)
+
+            return None
 
     def unify(self, literal) -> dict:
         unified_Variable = {}
