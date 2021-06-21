@@ -1,5 +1,6 @@
 import unittest
 from AnnoLog.literal import literal
+from AnnoLog.head import head
 from AnnoLog.variable import variable
 from AnnoLog.fact import fact
 from AnnoLog.context import context
@@ -24,16 +25,14 @@ class ruleCase(unittest.TestCase):
         factList = [f1, f2, f3, f4]
         contextList = [c1, c2]
 
-        head = literal('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
         l1 = literal('a', [variable('X'), variable('Y')])
         l2 = literal('type', [variable('Y')], ct=context(variable('C')))
         body = [l1, l2]
 
-        rule1 = rule(head, body)
+        rule1 = rule(h, body)
 
-        rule1.unify(factList, contextList)
-
-        new_facts = rule1.new_facts()
+        new_facts = rule1.new_facts(rule1.unify(factList, contextList))
         self.assertEqual(2, len(new_facts))
 
     def test_rule2(self):
@@ -44,6 +43,13 @@ class ruleCase(unittest.TestCase):
         f5 = fact('$farsi', ['cf1'])
         f6 = fact('$farsi', ['cf2'])
 
+        # word(door).
+        # word(sky).
+        # $arabic(ca1).
+        # $arabic(ca2).
+        # $farsi(cf1).
+        # $farsi(cf2).
+
         c1 = context('cf1')
         c1.add_dim(fact('meaning', ['door', 'dar']))
         c2 = context('cf2')
@@ -53,32 +59,38 @@ class ruleCase(unittest.TestCase):
         c4 = context('ca2')
         c4.add_dim(fact('meaning', ['sky', 'samaa']))
 
+        # cf1 = {'meaning': ['door', 'dar']}
+        # cf2 = {'meaning': ['sky', 'asaman']}
+        # ca1 = {'meaning': ['door', 'bab']}
+        # ca2 = {'meaning': ['sky', 'samaa']}
+
         factList = [f1, f2, f3, f4, f5, f6]
         contextList = [c1, c2, c3, c4]
 
-        head = literal('english_arabic', [variable('X'), variable('Y')], ct=context(variable('C')))
-        l1 = literal('word', ['door'])
+        # english_arabic(X, Y) @ C: -word(X), meaning(X, Y) @ C,$arabic(C).
+
+        h = head('english_arabic', [variable('X'), variable('Y')], ct=context(variable('C')))
+        l1 = literal('word', [variable('X')])
         l2 = literal('meaning', [variable('X'), variable('Y')], ct=context(variable('C')))
         l3 = literal('$arabic', [variable('C')])
         body = [l1, l2, l3]
 
-        rule1 = rule(head, body)
-        rule1.unify(factList, contextList)
+        rule1 = rule(h, body)
 
-        new_facts = rule1.new_facts()
+        new_facts = rule1.new_facts(rule1.unify(factList, contextList))
         self.assertEqual(2, len(new_facts))
         for f in new_facts:
             print(f)
 
-        head = literal('english_farsi', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('english_farsi', [variable('X'), variable('Y')], ct=context(variable('C')))
         l1.reset_df()
         l2.reset_df()
         l4 = literal('$farsi', [variable('C')])
         body = [l1, l2, l4]
-        rule2 = rule(head, body)
-        rule2.unify(factList, contextList)
-        new_facts = rule2.new_facts()
-
+        rule2 = rule(h, body)
+        new_facts = rule2.new_facts(rule2.unify(factList, contextList))
+        for f in new_facts:
+            print(f)
 
 
 if __name__ == '__main__':

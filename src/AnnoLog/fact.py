@@ -2,7 +2,7 @@ from AnnoLog.variable import variable
 
 
 class fact:
-    def __init__(self, predicate, arguments, ct=None, genetic=True):
+    def __init__(self, predicate: str, arguments: [str], ct=None, genetic: bool = True):
         self.genetic = genetic
         self.predicate = predicate
         self.arguments = arguments
@@ -31,7 +31,7 @@ class fact:
         else:
             return self.predicate == other.predicate and self.arguments == other.arguments
 
-    def unify(self, literal):
+    def unify(self, literal) -> dict:
         unified_Variable = {}
 
         # if the signature does not match then the literal can not be unified to this fact

@@ -5,6 +5,7 @@ from AnnoLog.fact import fact
 from AnnoLog.context import context
 from AnnoLog.rule import rule
 from AnnoLog.ConteLog import ConteLog
+from AnnoLog.head import head
 
 
 class conteLogCase(unittest.TestCase):
@@ -24,29 +25,29 @@ class conteLogCase(unittest.TestCase):
         factList = [f1, f2, f3, f4]
         contextList = [c1, c2]
 
-        head = literal('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
         l1 = literal('a', [variable('X'), variable('Y')])
         l2 = literal('type', [variable('Y')], ct=context(variable('C')))
 
         body = [l1, l2]
 
-        rule1 = rule(head, body)
+        rule1 = rule(h, body)
 
-        head = literal('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
         l1 = literal('a', [variable('X'), variable('Z')])
         l2 = literal('a', [variable('Z'), variable('Y')], ct=context(variable('C')))
 
         body = [l1, l2]
 
-        rule2 = rule(head, body)
+        rule2 = rule(h, body)
 
-        head = literal('f', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('f', [variable('X'), variable('Y')], ct=context(variable('C')))
         l1 = literal('a', [variable('X'), variable('Z')], ct=context(variable('C')))
         l2 = literal('f', [variable('Y')], ct=context(variable('C')))
 
         body = [l1, l2]
 
-        rule3 = rule(head, body)
+        rule3 = rule(h, body)
 
         rules = [rule1, rule2, rule3]
 

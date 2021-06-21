@@ -3,6 +3,7 @@ from AnnoLog.fact import fact
 from AnnoLog.context import context
 from AnnoLog.literal import literal
 from AnnoLog.variable import variable
+from AnnoLog.head import head
 import pandas as pd
 
 
@@ -75,7 +76,7 @@ class literalCase(unittest.TestCase):
         print(df)
         self.assertEqual(2, df.shape[0])
 
-        head_literal = literal('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        head_literal = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
         print(head_literal)
         for index, row in df.iterrows():
             new_fact = head_literal.generate_name_fact(row.to_dict())
@@ -97,7 +98,7 @@ class literalCase(unittest.TestCase):
             df = pd.merge(df, literalList[i + 1].df)
 
         print(df)
-        head_literal = literal('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        head_literal = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
         print(head_literal)
         for index, row in df.iterrows():
             new_fact = head_literal.generate_name_fact(row.to_dict())
