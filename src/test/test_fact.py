@@ -56,11 +56,11 @@ class factsCase(unittest.TestCase):
     def test_parseFact(self):
         text = 'a(parrot,bird,birda).'
         f = fact.parseFact(text)
-        self.assertEqual(text, str(f))
+        self.assertEqual('a(parrot,bird,birda).', str(f))
 
         text = 'a(parrot,bird,birda)@a.'
         f = fact.parseFact(text)
-        self.assertEqual(text, str(f))
+        self.assertEqual('a(parrot,bird,birda)@a.', str(f))
 
         text = 'a(parrot,bird,birda)@a+.'
         f = fact.parseFact(text)
@@ -94,7 +94,15 @@ class factsCase(unittest.TestCase):
         f = fact.parseFact(text)
         self.assertEqual(None, f)
 
+        text = 'abc   (  parrot  ,  bird, birda   )@  aa + bb_cc +cc.'
+        f = fact.parseFact(text)
+        self.assertEqual('abc(parrot,bird,birda)@aa+bb_cc+cc.', str(f))
+
         text = 'a(parrot,bird,birda)@A.'
+        f = fact.parseFact(text)
+        self.assertEqual(None, f)
+
+        text = 'a b(parrot,bird,birda)@a.'
         f = fact.parseFact(text)
         self.assertEqual(None, f)
 

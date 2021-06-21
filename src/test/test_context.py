@@ -10,57 +10,57 @@ class contextCase(unittest.TestCase):
         ct = context('c1')
         ct.add_dim(fact('currency', ['euro']))
         ct.add_dim(fact('location', ['france']))
-        print(ct)
+        # print(ct)
         l1 = literal('location', [variable('Y')], ct=[context(variable('C'))])
         l2 = literal('location', [variable('Y')], ct=[context('c1')])
-        print(l1)
-        print(l2)
+        # print(l1)
+        # print(l2)
         self.assertEqual({'C': 'c1', 'Y': 'france'}, ct.unify(l1))
         self.assertEqual({'Y': 'france'}, ct.unify(l2))
 
         l3 = literal('currency', [variable('Z')], ct=[context(variable('C'))])
-        print(l3)
-        print(ct.unify(l3))
+        # print(l3)
+        # print(ct.unify(l3))
 
         cf1 = context('cf1')
         cf1.add_dim(fact('meaning', ['door']))
         l4 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
-        print(cf1)
-        print(l4)
+        # print(cf1)
+        # print(l4)
         self.assertEqual(None, cf1.unify(l4))
 
         cf1.add_dim(fact('meaning', ['door', 'dar']))
-        print(cf1.unify(l4))
+        # print(cf1.unify(l4))
         self.assertEqual({'C': 'cf1', 'X': 'door', 'Y': 'dar'}, cf1.unify(l4))
 
         l5 = literal('meaning', ['door', variable('Y')], ct=[context(variable('C'))])
-        print(cf1.unify(l5))
+        # print(cf1.unify(l5))
 
 
     def test_parseContext(self):
-        text = 'cbird={\'type\':[\'bird\'], \'f\':[\'canfly\']}'
+        text = '   cbird   ={\'type\':[\'bird\'   ]  ,    \'f\':[\'canfly\']}'
         ct = context.parseContext(text)
-        self.assertEqual(text, str(ct))
+        self.assertEqual('cbird={\'type\':[\'bird\'],\'f\':[\'canfly\']}', str(ct))
 
         text = 'camph={\'type\':[\'amph\'], \'f\':[\'canswim\']}'
         ct = context.parseContext(text)
-        self.assertEqual(text, str(ct))
+        self.assertEqual('camph={\'type\':[\'amph\'],\'f\':[\'canswim\']}', str(ct))
 
         text = 'AmAh={\'type\':[\'amph\'], \'f\':[\'canswim\']}'
         ct = context.parseContext(text)
-        self.assertEqual(None, str(ct))
+        self.assertEqual(None, ct)
 
         text = 'camph={\'type\':[\'amph\',\'amph\'], \'f\':[\'canswim\',\'amph\']}'
         ct = context.parseContext(text)
-        self.assertEqual(text, str(ct))
+        self.assertEqual('camph={\'type\':[\'amph\',\'amph\'],\'f\':[\'canswim\',\'amph\']}', str(ct))
 
         text = 'camph={\'type\':[\'amph\',\'amph\', \'f\':[\'canswim\',\'amph\']}'
         ct = context.parseContext(text)
-        self.assertEqual(None, str(ct))
+        self.assertEqual(None, ct)
 
         text = 'camph={\'type\':[\'amph\',\'amph\', \'A\':[\'canswim\',\'amph\']}'
         ct = context.parseContext(text)
-        self.assertEqual(None, str(ct))
+        self.assertEqual(None, ct)
 
 
 if __name__ == '__main__':

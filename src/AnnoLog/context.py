@@ -1,6 +1,6 @@
 from AnnoLog.variable import variable
+import AnnoLog.fact
 import re
-
 
 class context:
     def __init__(self, *args):
@@ -62,6 +62,62 @@ class context:
     def parseContext(line):
         constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
         context_pattern = re.compile(
-            r'([a-z][a-z|\d|_]*)={([a-z|\d|_|,]*)}\.')
+            r'[\s]*([a-z][a-z|\d|_]*)[\s]*=[\s]*{([a-z|\d|_|,|\'|:|\s\[\]]*)}')
+
+        m = context_pattern.match(line)
+        if m:
+            context_components = list(m.groups())
+            # print(context_components)
+
+            if constant_pattern.fullmatch(context_components[0].strip()):
+                name = context_components[0].strip()
+            else:
+                return None
+
+
+            literals = []
+            literal_pattern = re.compile(
+                r'([\s]*\'[\s]*[a-z|\d|_]*[\s]*\'[\s]*:[\s]*\[[\'|\d|a-z|_|,|\s]*\][\s]*)')
+
+            find_match = True
+            literal_string_list = re.findall(literal_pattern, context_components[1])
+
+            # if the concatenation of literal_string after parsing does not match the original
+            # then there are some illegal literal form exist
+            if context_components[1] == ','.join(literal_string_list):
+                dims = {}
+                for literal_string in literal_string_list:
+                    literal_parts_pattern = re.compile(
+                        r'[\s]*\'[\s]*([a-z|\d|_]*)[\s]*\'[\s]*:[\s]*\[([\'|\d|a-z|_|,|\s]*)\]')
+
+                    literal_string_m = literal_parts_pattern.match(literal_string)
+                    # print(literal_string_m.groups())
+                    literal_components = list(literal_string_m.groups())
+                    predicate = literal_components[0].strip()
+                    arguments = literal_components[1].split(',')
+
+                    for i, arg in enumerate(arguments):
+
+                        arg = re.compile(r'[\s]*\'[\s]*([a-z|\d|_]*)[\s]*\'[\s]*').match(arg).groups()[0]
+
+                        if arg is None or arg == '':
+                            find_match = False
+                            break
+
+                        # this check makes sure there is no space inside of argument value
+                        elif re.compile(r'[a-z|\d|_]*').fullmatch(arg.strip()):
+                            arguments[i] = arg.strip()
+                        else:
+                            find_match = False
+                            break
+                    dims[predicate] = AnnoLog.fact.fact(predicate, arguments)
+
+                if find_match:
+                    return context(name, dims)
+
+            else:
+                return None
+
+
 
         return None

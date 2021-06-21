@@ -1,10 +1,10 @@
 from AnnoLog.variable import variable
-from AnnoLog.context import context
+import AnnoLog.context
 import re
 
 
 class fact:
-    def __init__(self, predicate: str, arguments: [str], ct: [context] = None, genetic: bool = True):
+    def __init__(self, predicate: str, arguments: [str], ct: [] = None, genetic: bool = True):
         self.genetic = genetic
         self.predicate = predicate
         self.arguments = arguments
@@ -49,14 +49,17 @@ class fact:
         #   predicate pattern : ([\s]*[a-z][a-z|\d|_]*[\s]*)
         #   arguments pattern : \([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)
         #   contexts pattern : (@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*
-        # end with '\.'
+        # then end with '\.'
         # [\s]* means any number of space or blank characters
         fact_pattern = re.compile(
             r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
         m = fact_pattern.match(line)
         if m:
             fact_components = list(m.groups())
-            predicate = fact_components[0].strip()
+            if constant_pattern.fullmatch(fact_components[0].strip()):
+                predicate = fact_components[0].strip()
+            else:
+                return None
             arguments = fact_components[1].split(',')
             find_match = True
             for i, arg in enumerate(arguments):
@@ -65,7 +68,7 @@ class fact:
                     break
 
                 # this check makes sure there is no space inside of argument name
-                elif constant_pattern.fullmatch(arg.strip()):
+                elif re.compile(r'([a-z|\d|_]*)').fullmatch(arg.strip()):
                     arguments[i] = arg.strip()
                 else:
                     find_match = False
@@ -82,7 +85,7 @@ class fact:
                             find_match = False
                             return None
                         elif constant_pattern.fullmatch(ct_name.strip()):
-                            ct_list.append(context(ct_name.strip()))
+                            ct_list.append(AnnoLog.context.context(ct_name.strip()))
                         else:
                             find_match = False
                             break
