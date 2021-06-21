@@ -41,7 +41,8 @@ class fact:
     @staticmethod
     def parseFact(line):
         # Constants start with lowercase letter, follows with any number of lowercase letter, digits or '_'
-        constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        constant_name_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        constant_value_pattern = re.compile(r'[a-z|\d|_]*')
         # Variables start with capital letter, follows with any number of capital letter, digits or '_'
         variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
         # facts line has three parts:
@@ -56,7 +57,7 @@ class fact:
         m = fact_pattern.match(line)
         if m:
             fact_components = list(m.groups())
-            if constant_pattern.fullmatch(fact_components[0].strip()):
+            if constant_name_pattern.fullmatch(fact_components[0].strip()):
                 predicate = fact_components[0].strip()
             else:
                 return None
@@ -67,8 +68,8 @@ class fact:
                     find_match = False
                     break
 
-                # this check makes sure there is no space inside of argument name
-                elif re.compile(r'([a-z|\d|_]*)').fullmatch(arg.strip()):
+                # this check makes sure there is no space inside of argument value
+                elif constant_value_pattern.fullmatch(arg.strip()):
                     arguments[i] = arg.strip()
                 else:
                     find_match = False
@@ -84,7 +85,7 @@ class fact:
                         if ct_name is None or ct_name == '':
                             find_match = False
                             return None
-                        elif constant_pattern.fullmatch(ct_name.strip()):
+                        elif constant_name_pattern.fullmatch(ct_name.strip()):
                             ct_list.append(AnnoLog.context.context(ct_name.strip()))
                         else:
                             find_match = False

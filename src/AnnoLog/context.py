@@ -60,24 +60,24 @@ class context:
 
     @staticmethod
     def parseContext(line):
-        constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        constant_name_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        constant_value_pattern = re.compile(r'[a-z|\d|_]*')
+        attribute_value_pattern = re.compile(r'[\s]*\'[\s]*([a-z|\d|_|\*|,|\s]*)[\s]*\'[\s]*')
         context_pattern = re.compile(
-            r'[\s]*([a-z][a-z|\d|_]*)[\s]*=[\s]*{([a-z|\d|_|,|\'|:|\s\[\]]*)}')
+            r'[\s]*([a-z][a-z|\d|_]*)[\s]*=[\s]*{([a-z|\d|_|,|\*|\'|:|\s\[\]]*)}')
 
         m = context_pattern.match(line)
         if m:
             context_components = list(m.groups())
             # print(context_components)
 
-            if constant_pattern.fullmatch(context_components[0].strip()):
+            if constant_name_pattern.fullmatch(context_components[0].strip()):
                 name = context_components[0].strip()
             else:
                 return None
 
-
-            literals = []
             literal_pattern = re.compile(
-                r'([\s]*\'[\s]*[a-z|\d|_]*[\s]*\'[\s]*:[\s]*\[[\'|\d|a-z|_|,|\s]*\][\s]*)')
+                r'([\s]*\'[\s]*[a-z|\d|_]*[\s]*\'[\s]*:[\s]*\[[\'|\d|a-z|_|,|\s|\*]*\][\s]*)')
 
             find_match = True
             literal_string_list = re.findall(literal_pattern, context_components[1])
@@ -88,28 +88,26 @@ class context:
                 dims = {}
                 for literal_string in literal_string_list:
                     literal_parts_pattern = re.compile(
-                        r'[\s]*\'[\s]*([a-z|\d|_]*)[\s]*\'[\s]*:[\s]*\[([\'|\d|a-z|_|,|\s]*)\]')
+                        r'[\s]*\'[\s]*([a-z|\d|_]*)[\s]*\'[\s]*:[\s]*\[([\'|\d|a-z|_|,|\*|\s]*)\]')
 
                     literal_string_m = literal_parts_pattern.match(literal_string)
                     # print(literal_string_m.groups())
                     literal_components = list(literal_string_m.groups())
                     predicate = literal_components[0].strip()
-                    arguments = literal_components[1].split(',')
-
+                    # print(literal_components[1])
+                    arguments = re.findall(re.compile(r'(\'[\d|a-z|_|,|\*|\s]*\')'), literal_components[1])
+                    # print(arguments)
                     for i, arg in enumerate(arguments):
 
-                        arg = re.compile(r'[\s]*\'[\s]*([a-z|\d|_]*)[\s]*\'[\s]*').match(arg).groups()[0]
+                        arg = attribute_value_pattern.match(arg).groups()[0]
 
                         if arg is None or arg == '':
                             find_match = False
                             break
 
-                        # this check makes sure there is no space inside of argument value
-                        elif re.compile(r'[a-z|\d|_]*').fullmatch(arg.strip()):
-                            arguments[i] = arg.strip()
                         else:
-                            find_match = False
-                            break
+                            arguments[i] = arg.strip()
+
                     dims[predicate] = AnnoLog.fact.fact(predicate, arguments)
 
                 if find_match:

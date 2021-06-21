@@ -1,8 +1,6 @@
-rb1={'dir':['w','e'],'level':['1']}
-rb2={'dir':['s','n'],'vlevel':['2']}
-rb3={'dir':['n','s'],'vlevel':['1']}
-rb4={'dir':['e','w'],'level':['2']}
-pa={'cango':['e','s'],'plevel':['1'],'pvlevel':['1']}
-pb={'cango':['s','w'],'plevel':['1'],'pvlevel':['2']}
-pc={'cango':['e','n'],'plevel':['2'],'pvlevel':['1']}
-pd={'cango':['n','w'],'plevel':['2'],'pvlevel':['2']}
+p1={'fever':['high'],'symp':['headache']}
+p2={'bs':['high'],'symp':['dehydration']}
+p3={'bp':['high'],'symp':['chestpain']}
+meningitis={'bs':['normal'],'bp':['normal'],'fever':['high'],'symp':['headache']}
+diebeties={'bs':['high'],'bp':['normal'],'fever':['normal'],'symp':['dehydration']}
+heart={'bs':['normal'],'bp':['high'],'fever':['normal'],'symp':['chestpain']}

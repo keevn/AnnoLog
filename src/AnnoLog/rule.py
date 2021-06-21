@@ -33,4 +33,6 @@ class rule:
 
     @staticmethod
     def parseRule(line):
+
+
         return None

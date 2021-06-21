@@ -21,6 +21,16 @@ for line in fileinput.input(files=codefile):
     f = fact.parseFact(line.strip())
     if f is not None:
         factList.append(f)
+
+    constant_name_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+    constant_value_pattern = re.compile(r'[a-z|\d|_]*')
+    variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
+    rule_pattern = re.compile(
+        r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-zA-Z][a-zA-Z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-zA-Z][a-zA-Z|\d|_|+|\s]*)?[\s]*:-[\s]*([.]+)[\s]*\.')
+    m = rule_pattern.match(line)
+    if m is not None:
+        print(m.groups())
+
     x += 1
 
 print('------------------------')
