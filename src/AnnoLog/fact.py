@@ -40,8 +40,17 @@ class fact:
 
     @staticmethod
     def parseFact(line):
+        # Constants start with lowercase letter, follows with any number of lowercase letter, digits or '_'
         constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        # Variables start with capital letter, follows with any number of capital letter, digits or '_'
         variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
+        # facts line has three parts:
+        #   predicate, arguments and contexts
+        #   predicate pattern : ([\s]*[a-z][a-z|\d|_]*[\s]*)
+        #   arguments pattern : \([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)
+        #   contexts pattern : (@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*
+        # end with '\.'
+        # [\s]* means any number of blanks
         fact_pattern = re.compile(
             r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
         m = fact_pattern.match(line)
@@ -54,14 +63,14 @@ class fact:
                 if arg is None or arg == '':
                     find_match = False
                     break
+
+                # this check makes sure there is no space inside of argument name
                 elif constant_pattern.fullmatch(arg.strip()):
-                    print(constant_pattern.fullmatch(arg.strip()))
                     arguments[i] = arg.strip()
                 else:
                     find_match = False
                     break
 
-            print(fact_components)
             ct = fact_components[-1]
             ct_list = None
             if find_match:
@@ -72,8 +81,11 @@ class fact:
                         if ct_name is None or ct_name == '':
                             find_match = False
                             return None
-                        elif constant_pattern.match(ct_name.strip()):
+                        elif constant_pattern.fullmatch(ct_name.strip()):
                             ct_list.append(context(ct_name.strip()))
+                        else:
+                            find_match = False
+                            break
                 if find_match:
                     return fact(predicate, arguments, ct_list)
 
