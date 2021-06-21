@@ -2,6 +2,7 @@ from AnnoLog.variable import variable
 from AnnoLog.context import context
 import re
 
+
 class fact:
     def __init__(self, predicate: str, arguments: [str], ct: [context] = None, genetic: bool = True):
         self.genetic = genetic

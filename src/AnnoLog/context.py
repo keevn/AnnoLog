@@ -1,4 +1,5 @@
 from AnnoLog.variable import variable
+import re
 
 
 class context:
@@ -56,3 +57,11 @@ class context:
             return None
 
         return unified_Variable
+
+    @staticmethod
+    def parseContext(line):
+        constant_pattern = re.compile(r'[a-z][a-z|\d|_]*')
+        context_pattern = re.compile(
+            r'([a-z][a-z|\d|_]*)={([a-z|\d|_|,]*)}\.')
+
+        return None

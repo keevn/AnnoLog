@@ -4,7 +4,7 @@ from AnnoLog.variable import variable
 from AnnoLog.fact import fact
 from AnnoLog.context import context
 from AnnoLog.rule import rule
-from AnnoLog.conteLog import ConteLog
+from AnnoLog.contelog import ConteLog
 from AnnoLog.head import head
 from AnnoLog.body import body
 from AnnoLog.builtin_predicate import unequal
