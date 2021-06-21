@@ -25,9 +25,9 @@ class ruleCase(unittest.TestCase):
         factList = [f1, f2, f3, f4]
         contextList = [c1, c2]
 
-        h = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('a', [variable('X'), variable('Y')])
-        l2 = literal('type', [variable('Y')], ct=context(variable('C')))
+        l2 = literal('type', [variable('Y')], ct=[context(variable('C'))])
         body = [l1, l2]
 
         rule1 = rule(h, body)
@@ -69,9 +69,9 @@ class ruleCase(unittest.TestCase):
 
         # english_arabic(X, Y) @ C: -word(X), meaning(X, Y) @ C,$arabic(C).
 
-        h = head('english_arabic', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('english_arabic', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('word', [variable('X')])
-        l2 = literal('meaning', [variable('X'), variable('Y')], ct=context(variable('C')))
+        l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l3 = literal('$arabic', [variable('C')])
         body = [l1, l2, l3]
 
@@ -82,7 +82,7 @@ class ruleCase(unittest.TestCase):
         for f in new_facts:
             print(f)
 
-        h = head('english_farsi', [variable('X'), variable('Y')], ct=context(variable('C')))
+        h = head('english_farsi', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1.reset_df()
         l2.reset_df()
         l4 = literal('$farsi', [variable('C')])
@@ -91,6 +91,7 @@ class ruleCase(unittest.TestCase):
         new_facts = rule2.new_facts(rule2.unify(factList, contextList))
         for f in new_facts:
             print(f)
+        self.assertEqual(2, len(new_facts))
 
 
 if __name__ == '__main__':

@@ -22,8 +22,8 @@ class literalCase(unittest.TestCase):
         c3.add_dim(fact('location', ['canada']))
 
         l1 = literal('person', [variable('X'), variable('Y')])
-        l2 = literal('location', [variable('Y')], ct=context(variable('C')))
-        l3 = literal('currency', [variable('Z')], ct=context(variable('C')))
+        l2 = literal('location', [variable('Y')], ct=[context(variable('C'))])
+        l3 = literal('currency', [variable('Z')], ct=[context(variable('C'))])
 
         factList = [f1, f2]
         contextList = [c1, c2, c3]
@@ -57,7 +57,7 @@ class literalCase(unittest.TestCase):
         c2.add_dim(fact('f', ['canswim']))
 
         l1 = literal('a', [variable('X'), variable('Y')])
-        l2 = literal('type', [variable('Y')], ct=context(variable('C')))
+        l2 = literal('type', [variable('Y')], ct=[context(variable('C'))])
 
         factList = [f1, f2, f3, f4]
         contextList = [c1, c2]
@@ -76,7 +76,7 @@ class literalCase(unittest.TestCase):
         print(df)
         self.assertEqual(2, df.shape[0])
 
-        head_literal = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        head_literal = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         print(head_literal)
         for index, row in df.iterrows():
             new_fact = head_literal.generate_name_fact(row.to_dict())
@@ -84,7 +84,7 @@ class literalCase(unittest.TestCase):
             factList.append(new_fact)
 
         l3 = literal('a', [variable('X'), variable('Z')])
-        l4 = literal('a', [variable('Z'), variable('Y')], ct=context(variable('C')))
+        l4 = literal('a', [variable('Z'), variable('Y')], ct=[context(variable('C'))])
         literalList = [l3, l4]
 
         for li in literalList:
@@ -98,7 +98,7 @@ class literalCase(unittest.TestCase):
             df = pd.merge(df, literalList[i + 1].df)
 
         print(df)
-        head_literal = head('a', [variable('X'), variable('Y')], ct=context(variable('C')))
+        head_literal = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         print(head_literal)
         for index, row in df.iterrows():
             new_fact = head_literal.generate_name_fact(row.to_dict())

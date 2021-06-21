@@ -3,7 +3,7 @@ import pandas as pd
 
 
 class literal:
-    def __init__(self, predicate, arguments, ct=None):
+    def __init__(self, predicate: str, arguments: [], ct: [] = None):
         self.predicate = predicate
         self.arguments = arguments
         self.context = ct
@@ -18,10 +18,18 @@ class literal:
                 argumentStr.append(str(arg))
             else:
                 argumentStr.append(arg)  # constance
+
+        context_str = []
+        if self.context is not None:
+            for ct in self.context:
+                if isinstance(ct.name, variable):
+                    context_str.append(ct.name.varName)
+                else:
+                    context_str.append(ct.name)
         return '{predicate}({arguments}){context}'. \
             format(predicate=self.predicate,
                    arguments=','.join(argumentStr),
-                   context='' if self.context is None else '@' + str(self.context.name))
+                   context='' if self.context is None else '@' + '+'.join(context_str))
 
     def add_match(self, new_row):
         self.df = self.df.append(new_row, ignore_index=True).drop_duplicates()

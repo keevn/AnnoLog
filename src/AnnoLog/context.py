@@ -1,6 +1,4 @@
 from AnnoLog.variable import variable
-from AnnoLog.literal import literal
-from AnnoLog.fact import fact
 
 
 class context:
@@ -13,7 +11,7 @@ class context:
             self.name = args[0]
             self.dims = args[1]
 
-    def add_dim(self, dim: fact):
+    def add_dim(self, dim):
         self.dims[dim.predicate] = dim
 
     def __repr__(self):
@@ -34,16 +32,17 @@ class context:
 
         return self.name == other.name and len(common_pairs) == len(self.dims)
 
-    def unify(self, l: literal) -> dict:
+    def unify(self, l) -> dict:
         unified_Variable = {}
 
         if l.context is None:
             return None
 
-        if isinstance(l.context.name, variable):
-            unified_Variable[l.context.name.varName] = self.name
-        elif self.name != l.context.name:
-            return None
+        for ct in l.context:
+            if isinstance(ct.name, variable):
+                unified_Variable[ct.name.varName] = self.name
+            elif self.name != ct.name:
+                return None
 
         if l.predicate in self.dims:
             if len(l.arguments) != len(self.dims[l.predicate].arguments):

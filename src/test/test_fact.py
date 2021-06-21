@@ -9,20 +9,20 @@ class factsCase(unittest.TestCase):
     def test_factConstructor(self):
         f1 = fact('word', ['door'])  # word(door)
         ct = context('j1')
-        f2 = fact('p', ['4', '5'], ct=ct)  # p(4,5)@j1
+        f2 = fact('p', ['4', '5'], ct=[ct])  # p(4,5)@j1
         print(f2)
-        f3 = fact('a', ['parakeet', 'parrot'], ct=context('cbird'), genetic=False)  # a(parakeet,parrot)@cbird
-        self.assertEqual(True, str(f1) == 'word(door)')
-        self.assertEqual(True, str(f2) == 'p(4,5)@j1')
+        f3 = fact('a', ['parakeet', 'parrot'], ct=[context('cbird')], genetic=False)  # a(parakeet,parrot)@cbird
+        self.assertEqual(True, str(f1) == 'word(door).')
+        self.assertEqual(True, str(f2) == 'p(4,5)@j1.')
         f2.setNew()
-        self.assertEqual(True, '**p(4,5)@j1' == str(f2))
-        self.assertEqual(True, str(f3) == '**a(parakeet,parrot)@cbird')
+        self.assertEqual(True, '**p(4,5)@j1.' == str(f2))
+        self.assertEqual(True, str(f3) == '**a(parakeet,parrot)@cbird.')
         ct.add_dim(f3)
         ct.add_dim(f1)
         ct2 = context('j1')
 
         ct2.add_dim(fact('word', ['door']))
-        ct2.add_dim(fact('a', ['parakeet', 'parrot'], ct=context('cbird')))
+        ct2.add_dim(fact('a', ['parakeet', 'parrot'], ct=[context('cbird')]))
 
         #print(ct)
         #print(ct2)
@@ -42,10 +42,10 @@ class factsCase(unittest.TestCase):
         l2 = literal('person', ['ammar', 'canada'])
         print("f2.unify(l2): " + str(f2.unify(l2)))
 
-        f3 = fact('person', ['ammar', 'canada'], ct=context('j1'))
+        f3 = fact('person', ['ammar', 'canada'], ct=[context('j1')])
         f4 = fact('person', ['ammar', 'canada'])
-        l3 = literal('person', [variable('X'), variable('Y')], ct=context('j1'))
-        l4 = literal('person', [variable('X'), variable('Y')], ct=context(variable('Z')))
+        l3 = literal('person', [variable('X'), variable('Y')], ct=[context('j1')])
+        l4 = literal('person', [variable('X'), variable('Y')], ct=[context(variable('Z'))])
         print(f3.unify(l3))
         print(f4.unify(literal('person', [variable('X'), 'france'])))
         self.assertEqual(None,f4.unify(literal('person', [variable('X'), 'france'])))

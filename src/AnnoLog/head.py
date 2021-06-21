@@ -18,10 +18,11 @@ class head(literal):
                     break
             else:
                 arguments.append(arg)
-        ct = None
-        if isinstance(self.context.name, variable):
-            if str(self.context.name) in resolution:
-                ct = context(resolution[str(self.context.name)])
-        else:
-            ct = self.context
-        return fact(self.predicate, arguments, ct=ct, genetic=False)
+        ctList = []
+        for ct in self.context:
+            if isinstance(ct.name, variable):
+                if str(ct.name) in resolution:
+                    ctList.append(context(resolution[str(ct.name)]))
+            else:
+                ctList.append(ct)
+        return fact(self.predicate, arguments, ct=ctList, genetic=False)

@@ -1,19 +1,25 @@
 from AnnoLog.variable import variable
+from AnnoLog.context import context
 
 
 class fact:
-    def __init__(self, predicate: str, arguments: [str], ct=None, genetic: bool = True):
+    def __init__(self, predicate: str, arguments: [str], ct: [context] = None, genetic: bool = True):
         self.genetic = genetic
         self.predicate = predicate
         self.arguments = arguments
         self.context = ct
 
     def __repr__(self):
-        return '{sign}{predicate}({arguments}){context}'. \
+        context_str = []
+        if self.context is not None:
+            for ct in self.context:
+                context_str.append(ct.name)
+
+        return '{sign}{predicate}({arguments}){context}.'. \
             format(sign='' if self.genetic else '**',
                    predicate=self.predicate,
                    arguments=','.join(self.arguments),
-                   context='' if self.context is None else '@' + str(self.context.name))
+                   context='' if self.context is None else '@' + '+'.join(context_str))
 
     def setNew(self):
         self.genetic = False
@@ -46,10 +52,13 @@ class fact:
 
             # if both contexts are not None then check the context first
             if self.context is not None and literal.context is not None:
-                if isinstance(literal.context.name, variable):
-                    unified_Variable[literal.context.name.varName] = self.context.name
-                elif self.context != literal.context:
+                if len(self.context) != len(literal.context):
                     return None
+                for i, ct in enumerate(literal.context):
+                    if isinstance(ct.name, variable):
+                        unified_Variable[ct.name.varName] = self.context[i].name
+                    elif self.context[i] != ct:
+                        return None
 
             # after checking the context, check all the arguments
             for i, argument in enumerate(literal.arguments):
