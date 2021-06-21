@@ -52,18 +52,19 @@ class fact:
 
             # if both contexts are not None then check the context first
             if self.context is not None and literal.context is not None:
+                # the numbers of both contexts have to match
                 if len(self.context) != len(literal.context):
                     return None
                 for i, ct in enumerate(literal.context):
                     if isinstance(ct.name, variable):
-                        unified_Variable[ct.name.varName] = self.context[i].name
+                        unified_Variable[str(ct.name)] = self.context[i].name
                     elif self.context[i] != ct:
                         return None
 
             # after checking the context, check all the arguments
             for i, argument in enumerate(literal.arguments):
                 if isinstance(argument, variable):
-                    unified_Variable[argument.varName] = self.arguments[i]
+                    unified_Variable[str(argument)] = self.arguments[i]
                 elif self.arguments[i] != argument:
                     return None
 

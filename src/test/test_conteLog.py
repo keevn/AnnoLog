@@ -4,7 +4,7 @@ from AnnoLog.variable import variable
 from AnnoLog.fact import fact
 from AnnoLog.context import context
 from AnnoLog.rule import rule
-from AnnoLog.ConteLog import ConteLog
+from AnnoLog.conteLog import ConteLog
 from AnnoLog.head import head
 from AnnoLog.body import body
 from AnnoLog.builtin_predicate import unequal
@@ -92,6 +92,10 @@ class conteLogCase(unittest.TestCase):
         factList = [f1, f2, f3, f4, f5, f6]
         contextList = [cf1, cf2, ca1, ca2]
 
+        # in order to support the '+' sign, the context argument has to be a list
+        # for just one context literal like 'english_arabic(X,Y)@C'  ct=[context(variable('C'))]
+        # for context in form 'C+W' literal like 'english_arabic(X,Y)@C+W'
+        #       then ct=[context(variable('C')),context(variable('W'))], beware the order matters
         h = head('english_arabic', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('word', [variable('X')])
         l2 = literal('meaning', [variable('X'), variable('Y')], ct=[context(variable('C'))])
@@ -133,10 +137,10 @@ class conteLogCase(unittest.TestCase):
         l1 = literal('all_translations', [variable('Z'),variable('X')], ct=[context(variable('C'))])
         l2 = literal('all_translations', [variable('Z'), variable('Y')], ct=[context(variable('W'))])
         e1 = unequal([variable('C'), variable('W')])
+
         b = body([l1, l2], [e1])
 
         rule5 = rule(h, b)
-
 
         rules = [rule1, rule2, rule3, rule4, rule5]
 
