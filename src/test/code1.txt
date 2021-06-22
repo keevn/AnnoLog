@@ -1,7 +1,3 @@
-a(parrot,bird).
-a(frog,amph).
-a(parakeet,parrot).
-a(tods,frog).
-a(X,Y)@C:-a(X,Y),type(Y)@C.
-a(X,Y)@C:-a(X,Z), a(Z,Y)@C.
-f(X,Y)@C:-a(X,Z)@C,f(Y)@C.
+person(ammar,canada).
+person(zaki,france).
+percontext(X,Y,Z)@C:-person(X,Y),location(Y)@C,currency(Z)@C.

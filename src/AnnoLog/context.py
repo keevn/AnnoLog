@@ -1,6 +1,8 @@
-from AnnoLog.variable import variable
-import AnnoLog.fact
 import re
+
+import AnnoLog.fact
+from AnnoLog.variable import variable
+
 
 class context:
     def __init__(self, *args):

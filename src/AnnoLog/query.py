@@ -1,7 +1,7 @@
-from AnnoLog.literal import literal
-from AnnoLog.variable import variable
 from AnnoLog.context import context
 from AnnoLog.fact import fact
+from AnnoLog.literal import literal
+from AnnoLog.variable import variable
 
 
 class query(literal):

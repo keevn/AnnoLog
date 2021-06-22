@@ -1,7 +1,9 @@
-from AnnoLog.variable import variable
-from AnnoLog.context import context
-import pandas as pd
 import re
+
+import pandas as pd
+
+from AnnoLog.context import context
+from AnnoLog.variable import variable
 
 
 class literal:

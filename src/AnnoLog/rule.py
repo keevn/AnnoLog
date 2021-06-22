@@ -1,8 +1,9 @@
-from AnnoLog.head import head
-from AnnoLog.body import body
-from AnnoLog.fact import fact
-from AnnoLog.context import context
 import re
+
+from AnnoLog.body import body
+from AnnoLog.context import context
+from AnnoLog.fact import fact
+from AnnoLog.head import head
 
 
 class rule:

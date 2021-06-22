@@ -1,7 +1,9 @@
-import pandas as pd
-from AnnoLog.literal import literal
-from AnnoLog.builtin_predicate import *
 import re
+
+import pandas as pd
+
+from AnnoLog.builtin_predicate import *
+from AnnoLog.literal import literal
 
 
 class body:

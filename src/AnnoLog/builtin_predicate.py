@@ -1,4 +1,5 @@
 import abc
+
 from AnnoLog.variable import variable
 
 

@@ -1,6 +1,7 @@
-from AnnoLog.variable import variable
-import AnnoLog.context
 import re
+
+import AnnoLog.context
+from AnnoLog.variable import variable
 
 
 class fact:

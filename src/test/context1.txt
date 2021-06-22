@@ -1,2 +1,3 @@
-cbird={'type':['bird'], 'f':['canfly']}
-camph={'type':['amph'], 'f':['canswim']}
+c1={'currency':['euro'],'location':['france']}
+c2={'currency':['dollar'],'location':['usa']}
+c3={'currency':['cad'],'location':['canada']}
