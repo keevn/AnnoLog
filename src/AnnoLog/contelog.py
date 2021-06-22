@@ -13,12 +13,14 @@ class ConteLog:
         for f in self.facts:
             q.add_match(f.unify(q))
 
-        if len(q.df.shape[0]) == 0:
+        count = q.df.shape[0]
+        if count == 0:
             print('no.')
         else:
             print('yes.')
             for _, row in q.df.iterrows():
                 print(q.generate_query_result(row.to_dict()))
+        return count
 
     def unify(self):
         while len(self.new_facts) != 0:

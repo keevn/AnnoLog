@@ -32,7 +32,7 @@ class body:
                         .reset_index(drop=True)
             else:
                 return
-        print(new_fact_df)
+        # print(new_fact_df)
 
         resolutions = []
         for _, row in new_fact_df.iterrows():

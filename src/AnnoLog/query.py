@@ -14,15 +14,19 @@ class query(literal):
             if isinstance(arg, variable):
                 if str(arg) in resolution:
                     arguments.append(resolution[str(arg)])
+                    print(str(arg), "=", resolution[str(arg)],".")
                 else:
                     break
             else:
                 arguments.append(arg)
         ctList = []
-        for ct in self.context:
-            if isinstance(ct.name, variable):
-                if str(ct.name) in resolution:
-                    ctList.append(context(resolution[str(ct.name)]))
-            else:
-                ctList.append(ct)
+        if self.context is not None:
+            for ct in self.context:
+                if isinstance(ct.name, variable):
+                    if str(ct.name) in resolution:
+                        ctList.append(context(resolution[str(ct.name)]))
+                else:
+                    ctList.append(ct)
+        if len(ctList) == 0:
+            ctList = None
         return fact(self.predicate, arguments, ct=ctList, genetic=True)
