@@ -32,6 +32,9 @@ class equal(builtin_predicate):
             raise WrongNumberOfArgumentsError
         self.values = [None] * 2
 
+    def __repr__(self):
+        return '='.join(self.values)
+
     def reset_df(self):
         pass
 
@@ -55,6 +58,9 @@ class unequal(builtin_predicate):
         if len(self.arguments) != 2:
             raise WrongNumberOfArgumentsError
         self.values = [None] * 2
+
+    def __repr__(self):
+        return '!='.join(self.arguments)
 
     def reset_df(self):
         pass

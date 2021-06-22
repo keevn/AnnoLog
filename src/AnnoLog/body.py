@@ -1,6 +1,7 @@
 import pandas as pd
 from AnnoLog.literal import literal
 from AnnoLog.builtin_predicate import *
+import re
 
 
 class body:
@@ -15,7 +16,7 @@ class body:
                 li.add_match(f.unify(li))
             for c in contextList:
                 li.add_match(c.unify(li))
-            li.show()
+            # li.show()
 
         new_fact_df = self.literals[0].df
         for i in range(0, len(self.literals) - 1):
@@ -23,8 +24,12 @@ class body:
                 return
             elif not self.literals[i + 1].df.empty:
                 common_variables = list(set(new_fact_df.columns).intersection(set(self.literals[i + 1].df.columns)))
-                new_fact_df = pd.merge(new_fact_df, self.literals[i + 1].df, on=common_variables).drop_duplicates() \
-                    .reset_index(drop=True)
+                if len(common_variables) > 0:
+                    new_fact_df = pd.merge(new_fact_df, self.literals[i + 1].df, on=common_variables).drop_duplicates() \
+                        .reset_index(drop=True)
+                else:
+                    new_fact_df = new_fact_df.merge(self.literals[i + 1].df, how='cross').drop_duplicates() \
+                        .reset_index(drop=True)
             else:
                 return
         print(new_fact_df)
@@ -43,5 +48,54 @@ class body:
             self.resolutions = resolutions
 
         return self.resolutions
+
+    def __repr__(self):
+        literal_strings = []
+        for l in self.literals:
+            literal_strings.append(str(l))
+        expression_strings = []
+        if self.expressions is not None:
+            for e in self.expressions:
+                expression_strings.append(str(e))
+            literal_strings.extend(expression_strings)
+        return ','.join(literal_strings)
+
+
+    @staticmethod
+    def parseBody(line):
+        literal_or_expression_pattern = re.compile(
+            r'([a-z|$][a-z|\d_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
+            r'a-z|A-Z\d_+\s]*)?|[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*!?=[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*)')
+
+        expression_pattern = re.compile(
+            r'[\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*([!]?=)[\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*')
+
+        find_match = True
+        literal_string_list = re.findall(literal_or_expression_pattern, line)
+        if line == ','.join(literal_string_list):
+            # print(literal_string_list)
+            literal_list = []
+            expression_list = []
+            for literal_string in literal_string_list:
+                m = expression_pattern.fullmatch(literal_string.strip())
+                if m:
+                    expression_components = list(m.groups())
+                    if expression_components[1] == '!=':
+                        expression_list.append(unequal([expression_components[0], expression_components[2]]))
+                    elif expression_components[1] == '=':
+                        expression_list.append(equal([expression_components[0], expression_components[2]]))
+                    else:
+                        return None
+                else:
+                    li = literal.parseLiteral(literal_string)
+                    if li is not None:
+                        literal_list.append(li)
+                    else:
+                        return None
+
+            if len(expression_list) == 0:
+                expression_list = None
+
+            return body(literal_list, expression_list)
 
 

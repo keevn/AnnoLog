@@ -1,6 +1,8 @@
 from AnnoLog.head import head
+from AnnoLog.body import body
 from AnnoLog.fact import fact
 from AnnoLog.context import context
+import re
 
 
 class rule:
@@ -11,9 +13,7 @@ class rule:
 
     def __repr__(self):
         ruleStringList = []
-        for r in self.body:
-            ruleStringList.append(str(r))
-        return '{head}:-{body}.'.format(head=str(self.head), body=','.join(ruleStringList))
+        return '{head}:-{body}.'.format(head=str(self.head), body=str(self.body))
 
     def unify(self, factList: [fact], contextList: [context]) -> [dict]:
         self.resolutions = self.body.unify(factList, contextList)
@@ -33,6 +33,19 @@ class rule:
 
     @staticmethod
     def parseRule(line):
-
-
+        rule_pattern = re.compile(
+            r'[\s]*([a-z][a-z|\d|_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z|\d|_|,|\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
+            r'a-z|A-Z|\d|_|+|\s]*)?)[\s]*:-[\s]*([a-z|A-Z|\d|_|$|+|*|&|@|=|!|\(|\)|,|\s]*)[\s]*\.')
+        m = rule_pattern.match(line)
+        if m is not None:
+            rule_components = list(m.groups())
+            head_string = rule_components[0]
+            h = head.parseHead(head_string)
+            if h is not None:
+                # print(h)
+                body_string = rule_components[1]
+                b = body.parseBody(body_string)
+                if b is not None:
+                    # print(b)
+                    return rule(h, b)
         return None

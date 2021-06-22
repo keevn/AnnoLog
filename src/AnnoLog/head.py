@@ -19,10 +19,18 @@ class head(literal):
             else:
                 arguments.append(arg)
         ctList = []
-        for ct in self.context:
-            if isinstance(ct.name, variable):
-                if str(ct.name) in resolution:
-                    ctList.append(context(resolution[str(ct.name)]))
-            else:
-                ctList.append(ct)
+        if self.context is not None:
+            for ct in self.context:
+                if isinstance(ct.name, variable):
+                    if str(ct.name) in resolution:
+                        ctList.append(context(resolution[str(ct.name)]))
+                else:
+                    ctList.append(ct)
+        if len(ctList)==0:
+            ctList = None
         return fact(self.predicate, arguments, ct=ctList, genetic=False)
+
+    @staticmethod
+    def parseHead(line):
+        li = literal.parseLiteral(line)
+        return head(li.predicate, li.arguments, ct=li.context)

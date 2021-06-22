@@ -1,8 +1,10 @@
 import os
 import fileinput
-import re
+
+from AnnoLog.contelog import ConteLog
 from AnnoLog.context import context
 from AnnoLog.fact import fact
+from AnnoLog.rule import rule
 
 cwd = os.getcwd()
 sepa = os.sep
@@ -15,38 +17,41 @@ contextfile = path + contextfile_name
 factList = []
 contextList = []
 rules = []
-x = 1
 for line in fileinput.input(files=codefile):
-    print(f'{line.strip()}')
     f = fact.parseFact(line.strip())
     if f is not None:
         factList.append(f)
 
-    constant_name_pattern = re.compile(r'[a-z][a-z|\d|_]*')
-    constant_value_pattern = re.compile(r'[a-z|\d|_]*')
-    variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
-    rule_pattern = re.compile(
-        r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-zA-Z][a-zA-Z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-zA-Z][a-zA-Z|\d|_|+|\s]*)?[\s]*:-[\s]*([.]+)[\s]*\.')
-    m = rule_pattern.match(line)
-    if m is not None:
-        print(m.groups())
+    r = rule.parseRule(line.strip())
+    if r is not None:
+        rules.append(r)
 
-    x += 1
-
+print('facts and rules :')
 print('------------------------')
 for f in factList:
     print(f)
 
+for r in rules:
+    print(r)
+
 print()
-x = 1
 for line in fileinput.input(files=contextfile):
-    print(f'{line.strip()}')
     ct = context.parseContext(line.strip())
 
     if ct is not None:
         contextList.append(ct)
-    x += 1
 
+print('contexts : ')
 print('------------------------')
 for ct in contextList:
     print(ct)
+
+print()
+print('unification : ')
+print('------------------------')
+
+contelogCode = ConteLog(factList, contextList, rules)
+
+contelogCode.unify()
+
+print(str(contelogCode))

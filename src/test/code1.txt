@@ -1,5 +1,7 @@
-p(ammar,1,1,1)@pb.
-p(X,W,M,C)@M:-p(X,D,F,U)@W,cango(Z,E)@W,dir(E,T)@C,cango(T,Z)@M,level(Y)@C,plevel(Y)@W.
-p(X,W,M,C)@M:-p(X,D,F,U)@W,cango(Z,E)@W,dir(Z,T)@C,cango(E,T)@M,level(Y)@C,plevel(Y)@W.
-p(X,W,M,C)@M:-p(X,D,F,U)@W,cango(Z,E)@W,dir(T,E)@C,cango(Z,T)@M,pvlevel(O)@M,vlevel(O)@C.
-p(X,W,M,C)@M:-p(X,D,F,U)@W,cango(Z,E)@W,dir(T,Z)@C,cango(T,E)@M,pvlevel(O)@M,vlevel(O)@C.
+a(parrot,bird).
+a(frog,amph).
+a(parakeet,parrot).
+a(tods,frog).
+a(X,Y)@C:-a(X,Y),type(Y)@C.
+a(X,Y)@C:-a(X,Z), a(Z,Y)@C.
+f(X,Y)@C:-a(X,Z)@C,f(Y)@C.

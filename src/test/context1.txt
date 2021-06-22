@@ -1,6 +1,2 @@
-p1={'fever':['high'],'symp':['headache']}
-p2={'bs':['high'],'symp':['dehydration']}
-p3={'bp':['high'],'symp':['chestpain']}
-meningitis={'bs':['normal'],'bp':['normal'],'fever':['high'],'symp':['headache']}
-diebeties={'bs':['high'],'bp':['normal'],'fever':['normal'],'symp':['dehydration']}
-heart={'bs':['normal'],'bp':['high'],'fever':['normal'],'symp':['chestpain']}
+cbird={'type':['bird'], 'f':['canfly']}
+camph={'type':['amph'], 'f':['canswim']}

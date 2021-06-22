@@ -41,10 +41,10 @@ class fact:
     @staticmethod
     def parseFact(line):
         # Constants start with lowercase letter, follows with any number of lowercase letter, digits or '_'
-        constant_name_pattern = re.compile(r'[a-z][a-z|\d|_]*')
-        constant_value_pattern = re.compile(r'[a-z|\d|_]*')
+        constant_name_pattern = re.compile(r'[a-z$][a-z|\d_]*')
+        constant_value_pattern = re.compile(r'[a-z|\d_]*')
         # Variables start with capital letter, follows with any number of capital letter, digits or '_'
-        variable_pattern = re.compile(r'[A-Z][A-Z|\d|_]*')
+        variable_pattern = re.compile(r'[A-Z][A-Z|\d_]*')
         # facts line has three parts:
         #   predicate, arguments and contexts
         #   predicate pattern : ([\s]*[a-z][a-z|\d|_]*[\s]*)
@@ -53,7 +53,7 @@ class fact:
         # then end with '\.'
         # [\s]* means any number of space or blank characters
         fact_pattern = re.compile(
-            r'([\s]*[a-z][a-z|\d|_]*[\s]*)\([\s]*([a-z][a-z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
+            r'([\s]*[a-z$][a-z|\d|_]*[\s]*)\([\s]*([a-z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
         m = fact_pattern.match(line)
         if m:
             fact_components = list(m.groups())
