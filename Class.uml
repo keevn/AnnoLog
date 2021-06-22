@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/Users/Keevn/Documents/Concordia/COMP 6591/Project/AnnoLog/src</OriginalElement>
+  <nodes>
+    <node x="416.140243902439" y="415.00000000000006">AnnoLog.body.body</node>
+    <node x="1294.1219512195123" y="254.0">AnnoLog.contelog.ConteLog</node>
+    <node x="0.0" y="626.0000000000002">AnnoLog.builtin_predicate.equal</node>
+    <node x="0.0" y="315.0">AnnoLog.query.query</node>
+    <node x="1347.1219512195123" y="0.0">AnnoLog.context.context</node>
+    <node x="908.280487804878" y="300.0">AnnoLog.rule.rule</node>
+    <node x="0.0" y="0.0">AnnoLog.variable.variable</node>
+    <node x="310.57317073170725" y="0.0">AnnoLog.literal.literal</node>
+    <node x="512.140243902439" y="304.0">AnnoLog.head.head</node>
+    <node x="-2.0" y="426.0000000000001">AnnoLog.builtin_predicate.builtin_predicate</node>
+    <node x="741.1490514905149" y="0.0">AnnoLog.fact.fact</node>
+    <node x="416.140243902439" y="626.0000000000002">AnnoLog.builtin_predicate.unequal</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="AnnoLog.head.head" target="AnnoLog.literal.literal" relationship="REALIZATION">
+      <point x="0.0" y="-49.5" />
+      <point x="700.140243902439" y="279.0" />
+      <point x="503.07317073170725" y="279.0" />
+      <point x="0.0" y="127.0" />
+    </edge>
+    <edge source="AnnoLog.query.query" target="AnnoLog.literal.literal" relationship="REALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="188.0" y="279.0" />
+      <point x="503.07317073170725" y="279.0" />
+      <point x="0.0" y="127.0" />
+    </edge>
+    <edge source="AnnoLog.builtin_predicate.equal" target="AnnoLog.builtin_predicate.builtin_predicate" relationship="REALIZATION">
+      <point x="43.0" y="-72.0" />
+      <point x="0.0" y="83.0" />
+    </edge>
+    <edge source="AnnoLog.builtin_predicate.unequal" target="AnnoLog.builtin_predicate.builtin_predicate" relationship="REALIZATION">
+      <point x="-155.0" y="0.0" />
+      <point x="307.5" y="698.0000000000002" />
+      <point x="119.5" y="83.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.6523388116308471" showDependencies="false" x="789.5" y="385.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+
