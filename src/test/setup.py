@@ -6,8 +6,8 @@ setup(
     packages=['test', 'AnnoLog'],
     package_dir={'': 'src/test'},
     url='https://github.com/keevn/AnnoLog.git',
-    license='',
-    author='Keevn',
+    license='MIT',
+    author='Team 16',
     author_email='hu_wan@live.concordia.ca',
     description='COMP 6591 Project'
 )
