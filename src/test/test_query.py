@@ -57,6 +57,8 @@ class queryCase(unittest.TestCase):
 
         contelogCode.unify()
 
+        print(str(contelogCode))
+
         query_literal = query('a', [variable('X'), variable('Z')])
         print("Query string :", str(query_literal))
 
@@ -69,6 +71,14 @@ class queryCase(unittest.TestCase):
         count = contelogCode.query(query_literal)
 
         self.assertEqual(0, count)
+
+        query_literal = query('f', ['frog', variable('Z')],[context(variable('C'))])
+        print("\nQuery string :", str(query_literal))
+
+        count = contelogCode.query(query_literal)
+
+        self.assertEqual(1, count)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -25,6 +25,7 @@ class ruleCase(unittest.TestCase):
         factList = [f1, f2, f3, f4]
         contextList = [c1, c2]
 
+        # a(X,Y)@C:-a(X,Y),type(Y)@C.
         h = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         l1 = literal('a', [variable('X'), variable('Y')])
         l2 = literal('type', [variable('Y')], ct=[context(variable('C'))])

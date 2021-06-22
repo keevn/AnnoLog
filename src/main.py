@@ -47,7 +47,7 @@ for ct in contextList:
     print(ct)
 
 print()
-print('unification : ')
+print('unification result: ')
 print('------------------------')
 
 contelogCode = ConteLog(factList, contextList, rules)

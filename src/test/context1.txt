@@ -1,3 +1,4 @@
-c1={'currency':['euro'],'location':['france']}
-c2={'currency':['dollar'],'location':['usa']}
-c3={'currency':['cad'],'location':['canada']}
+cf1={'meaning':['door','dar']}
+cf2={'meaning':['sky','asaman']}
+ca1={'meaning':['door','bab']}
+ca2={'meaning':['sky','samaa']}

@@ -28,7 +28,7 @@ class rule:
         # check whether resolution is None again because self.resolutions might be None as well
         if resolutions is not None:
             for resolution in resolutions:
-                new_fact = self.head.generate_name_fact(resolution)
+                new_fact = self.head.generate_new_fact(resolution)
                 facts.append(new_fact)
         return facts
 

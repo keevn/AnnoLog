@@ -1,3 +1,11 @@
-person(ammar,canada).
-person(zaki,france).
-percontext(X,Y,Z)@C:-person(X,Y),location(Y)@C,currency(Z)@C.
+word(door).
+word(sky).
+$arabic(ca1).
+$arabic(ca2).
+$farsi(cf1).
+$farsi(cf2).
+english_arabic(X,Y)@C:-word(X),meaning(X,Y)@C,$arabic(C).
+english_farsi(X,Y)@C:-word(X),meaning(X,Y)@C,$farsi(C).
+arabic_farsi(Y,Z)@C+W:-english_arabic(X,Y)@C,english_farsi(X,Z)@W.
+all_translations(X,Y)@C:-word(X),meaning(X,Y)@C.
+across_translation(X,Y)@C+W:-all_translations(Z,X)@C,all_translations(Z,Y)@W,C!=W.

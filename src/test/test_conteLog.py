@@ -12,6 +12,8 @@ from AnnoLog.builtin_predicate import unequal
 
 class conteLogCase(unittest.TestCase):
     def test_conteLog1(self):
+        print("Test case 1: ")
+        print("----------------------------")
         f1 = fact('a', ['parrot', 'bird'])
         f2 = fact('a', ['frog', 'amph'])
         f3 = fact('a', ['parakeet', 'parrot'])
@@ -53,10 +55,25 @@ class conteLogCase(unittest.TestCase):
 
         rules = [rule1, rule2, rule3]
 
+        print('\nfacts and rules :')
+        print('------------------------')
+        for f in factList:
+            print(f)
+
+        for r in rules:
+            print(r)
+
+        print('\ncontexts : ')
+        print('------------------------')
+        for ct in contextList:
+            print(ct)
+
+
         contelogCode = ConteLog(factList, contextList, rules)
 
         contelogCode.unify()
-
+        print('\nresult : ')
+        print('------------------------')
         print(str(contelogCode))
 
         self.assertEqual('a(parrot,bird).'
@@ -73,6 +90,8 @@ class conteLogCase(unittest.TestCase):
                          '\n**f(tods,canswim)@camph.', str(contelogCode))
 
     def test_conteLog2(self):
+        print("\nTest case 2: ")
+        print("----------------------------")
         f1 = fact('word', ['door'])
         f2 = fact('word', ['sky'])
         f3 = fact('$arabic', ['ca1'])
@@ -144,10 +163,25 @@ class conteLogCase(unittest.TestCase):
 
         rules = [rule1, rule2, rule3, rule4, rule5]
 
+        print('\nfacts and rules :')
+        print('------------------------')
+        for f in factList:
+            print(f)
+
+        for r in rules:
+            print(r)
+
+        print('\ncontexts : ')
+        print('------------------------')
+        for ct in contextList:
+            print(ct)
+
         contelogCode = ConteLog(factList, contextList, rules)
 
         contelogCode.unify()
 
+        print('\nresult : ')
+        print('------------------------')
         print(str(contelogCode))
 
         self.assertEqual('word(door).'

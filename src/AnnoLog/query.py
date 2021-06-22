@@ -14,7 +14,7 @@ class query(literal):
             if isinstance(arg, variable):
                 if str(arg) in resolution:
                     arguments.append(resolution[str(arg)])
-                    print(str(arg), "=", resolution[str(arg)],".")
+                    print(str(arg), "=", resolution[str(arg)], ".")
                 else:
                     break
             else:

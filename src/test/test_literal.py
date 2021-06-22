@@ -79,7 +79,7 @@ class literalCase(unittest.TestCase):
         head_literal = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         print(head_literal)
         for index, row in df.iterrows():
-            new_fact = head_literal.generate_name_fact(row.to_dict())
+            new_fact = head_literal.generate_new_fact(row.to_dict())
             print(new_fact)
             factList.append(new_fact)
 
@@ -101,7 +101,7 @@ class literalCase(unittest.TestCase):
         head_literal = head('a', [variable('X'), variable('Y')], ct=[context(variable('C'))])
         print(head_literal)
         for index, row in df.iterrows():
-            new_fact = head_literal.generate_name_fact(row.to_dict())
+            new_fact = head_literal.generate_new_fact(row.to_dict())
             print(new_fact)
             factList.append(new_fact)
 

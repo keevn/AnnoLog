@@ -8,7 +8,7 @@ class head(literal):
     def __init__(self, predicate: str, arguments: [str], ct=None):
         super(head, self).__init__(predicate, arguments, ct)
 
-    def generate_name_fact(self, resolution):
+    def generate_new_fact(self, resolution):
         arguments = []
         for arg in self.arguments:
             if isinstance(arg, variable):

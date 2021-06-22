@@ -83,9 +83,9 @@ class body:
                 if m:
                     expression_components = list(m.groups())
                     if expression_components[1] == '!=':
-                        expression_list.append(unequal([expression_components[0], expression_components[2]]))
+                        expression_list.append(unequal([variable(expression_components[0]), variable(expression_components[2])]))
                     elif expression_components[1] == '=':
-                        expression_list.append(equal([expression_components[0], expression_components[2]]))
+                        expression_list.append(equal([variable(expression_components[0]), variable(expression_components[2])]))
                     else:
                         return None
                 else:

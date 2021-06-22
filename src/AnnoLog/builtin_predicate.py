@@ -34,7 +34,13 @@ class equal(builtin_predicate):
         self.values = [None] * 2
 
     def __repr__(self):
-        return '='.join(self.values)
+        argumentStr = []
+        for arg in self.arguments:
+            if isinstance(arg, variable):  # variable
+                argumentStr.append(str(arg))
+            else:
+                argumentStr.append(arg)  # constance
+        return '='.join(self.argumentStr)
 
     def reset_df(self):
         pass
@@ -61,7 +67,13 @@ class unequal(builtin_predicate):
         self.values = [None] * 2
 
     def __repr__(self):
-        return '!='.join(self.arguments)
+        argumentStr = []
+        for arg in self.arguments:
+            if isinstance(arg, variable):  # variable
+                argumentStr.append(str(arg))
+            else:
+                argumentStr.append(arg)  # constance
+        return '!='.join(argumentStr)
 
     def reset_df(self):
         pass

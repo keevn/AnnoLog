@@ -43,7 +43,7 @@ class fact:
     def parseFact(line):
         # Constants start with lowercase letter, follows with any number of lowercase letter, digits or '_'
         constant_name_pattern = re.compile(r'[a-z$][a-z|\d_]*')
-        constant_value_pattern = re.compile(r'[a-z|\d_]*')
+        constant_value_pattern = re.compile(r'[a-z|\d_|\s]*')
         # Variables start with capital letter, follows with any number of capital letter, digits or '_'
         variable_pattern = re.compile(r'[A-Z][A-Z|\d_]*')
         # facts line has three parts:
