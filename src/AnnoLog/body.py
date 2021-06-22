@@ -64,7 +64,7 @@ class body:
     @staticmethod
     def parseBody(line):
         literal_or_expression_pattern = re.compile(
-            r'([a-z|$][a-z|\d_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
+            r'([\s]*[a-z|$][a-z|\d_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
             r'a-z|A-Z\d_+\s]*)?|[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*!?=[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*)')
 
         expression_pattern = re.compile(
