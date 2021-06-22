@@ -54,7 +54,7 @@ class literal:
         constant_value_pattern = re.compile(r'[a-z|\d_]*')
         variable_pattern = re.compile(r'[A-Z][A-Z|\d_]*')
         literal_pattern = re.compile(
-            r'([a-z|$][a-z|\d_]*)[\s]*\([\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*\)[\s]*(@[\s]*[a-z|A-Z]['
+            r'[\s]*([a-z|$][a-z|\d_]*)[\s]*\([\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*\)[\s]*(@[\s]*[a-z|A-Z]['
             r'a-z|A-Z\d_+\s]*)?')
         m = literal_pattern.match(line)
         if m:
