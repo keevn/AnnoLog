@@ -87,8 +87,10 @@ class queryCase(unittest.TestCase):
         path = f'{cwd}{sepa}'
         codefile_name = 'code3.txt'  # input('code file : ')
         contextfile_name = 'context3.txt'  # input('context file : ')
+        queryfile_name = 'query.txt'
         codefile = path + codefile_name
         contextfile = path + contextfile_name
+        queryfile = path + queryfile_name
 
         factList = []
         contextList = []
@@ -114,11 +116,13 @@ class queryCase(unittest.TestCase):
 
         print(str(contelogCode))
 
-        query_literal = query('p', ['2', variable('Q')])
-        print("Query string :", str(query_literal))
+        for line in fileinput.input(files=queryfile):
+            query_literal = query.parseQuery(line.strip())
+            if query_literal is not None:
+                print("Query string :", str(query_literal))
+                count = contelogCode.query(query_literal)
+            self.assertEqual(3, count)
 
-        count = contelogCode.query(query_literal)
-        self.assertEqual(3, count)
 
 
 if __name__ == '__main__':

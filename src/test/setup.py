@@ -9,5 +9,5 @@ setup(
     license='MIT',
     author='Team 16',
     author_email='hu_wan@live.concordia.ca',
-    description='COMP 6591 Project'
+    description='COMP 6591 Project, bottom up and top down solution'
 )

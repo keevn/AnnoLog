@@ -30,3 +30,8 @@ class query(literal):
         if len(ctList) == 0:
             ctList = None
         return fact(self.predicate, arguments, ct=ctList, genetic=True)
+
+    @staticmethod
+    def parseQuery(line):
+        li = literal.parseLiteral(line)
+        return query(li.predicate, li.arguments, ct=li.context)
