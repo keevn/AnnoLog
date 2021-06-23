@@ -85,9 +85,9 @@ class queryCase(unittest.TestCase):
         cwd = os.getcwd()
         sepa = os.sep
         path = f'{cwd}{sepa}'
-        codefile_name = 'code3.txt'  # input('code file : ')
-        contextfile_name = 'context3.txt'  # input('context file : ')
-        queryfile_name = 'query.txt'
+        codefile_name = 'test/code3.txt'  # input('code file : ')
+        contextfile_name = 'test/context3.txt'  # input('context file : ')
+        queryfile_name = 'test/query.txt'
         codefile = path + codefile_name
         contextfile = path + contextfile_name
         queryfile = path + queryfile_name
