@@ -124,6 +124,5 @@ class queryCase(unittest.TestCase):
             self.assertEqual(3, count)
 
 
-
 if __name__ == '__main__':
     unittest.main()
