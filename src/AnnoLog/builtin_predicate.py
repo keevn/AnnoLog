@@ -26,6 +26,7 @@ class builtin_predicate(metaclass=abc.ABCMeta):
         self.reset_df()
 
 
+# for the expression in form of  "A=B"
 class equal(builtin_predicate):
     def __init__(self, arguments: [str]):
         super(equal, self).__init__(arguments)
@@ -40,7 +41,7 @@ class equal(builtin_predicate):
                 argumentStr.append(str(arg))
             else:
                 argumentStr.append(arg)  # constance
-        return '='.join(self.argumentStr)
+        return '='.join(argumentStr)
 
     def reset_df(self):
         pass

@@ -8,6 +8,8 @@ from AnnoLog.contelog import ConteLog
 from AnnoLog.head import head
 from AnnoLog.body import body
 from AnnoLog.rule import rule
+import os
+import fileinput
 
 
 class queryCase(unittest.TestCase):
@@ -78,6 +80,45 @@ class queryCase(unittest.TestCase):
         count = contelogCode.query(query_literal)
 
         self.assertEqual(1, count)
+
+    def test_query2(self):
+        cwd = os.getcwd()
+        sepa = os.sep
+        path = f'{cwd}{sepa}'
+        codefile_name = 'code3.txt'  # input('code file : ')
+        contextfile_name = 'context3.txt'  # input('context file : ')
+        codefile = path + codefile_name
+        contextfile = path + contextfile_name
+
+        factList = []
+        contextList = []
+        rules = []
+        for line in fileinput.input(files=codefile):
+            f = fact.parseFact(line.strip())
+            if f is not None:
+                factList.append(f)
+
+            r = rule.parseRule(line.strip())
+            if r is not None:
+                rules.append(r)
+
+        for line in fileinput.input(files=contextfile):
+            ct = context.parseContext(line.strip())
+
+            if ct is not None:
+                contextList.append(ct)
+
+        contelogCode = ConteLog(factList, contextList, rules)
+
+        contelogCode.unify()
+
+        print(str(contelogCode))
+
+        query_literal = query('p', ['2', variable('Q')])
+        print("Query string :", str(query_literal))
+
+        count = contelogCode.query(query_literal)
+        self.assertEqual(3, count)
 
 
 if __name__ == '__main__':

@@ -54,7 +54,9 @@ class fact:
         # then end with '\.'
         # [\s]* means any number of space or blank characters
         fact_pattern = re.compile(
-            r'([\s]*[a-z$][a-z|\d|_]*[\s]*)\([\s]*([a-z|\d|_|,|\s]*)[\s]*\)[\s]*(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
+            r'([\s]*[a-z$][a-z|\d|_]*[\s]*)'
+            r'\([\s]*([a-z|\d|_|,|\s]*)[\s]*\)[\s]*'
+            r'(@[\s]*[a-z][a-z|\d|_|+|\s]*)?[\s]*\.')
         m = fact_pattern.match(line)
         if m:
             fact_components = list(m.groups())

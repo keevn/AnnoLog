@@ -35,8 +35,8 @@ class rule:
     @staticmethod
     def parseRule(line):
         rule_pattern = re.compile(
-            r'[\s]*([a-z][a-z|\d|_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z|\d|_|,|\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
-            r'a-z|A-Z|\d|_|+|\s]*)?)[\s]*:-[\s]*([a-z|A-Z|\d|_|$|+|*|&|@|=|!|\(|\)|,|\s]*)[\s]*\.')
+            r'[\s]*([a-z][a-z|\d|_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z|\d|_|,|\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z][a-z|A-Z|\d|_|+|\s]*)?)'
+            r'[\s]*:-[\s]*([a-z|A-Z|\d|_|$|+|*|&|@|=|!|\(|\)|,|\s]*)[\s]*\.')
         m = rule_pattern.match(line)
         if m is not None:
             rule_components = list(m.groups())

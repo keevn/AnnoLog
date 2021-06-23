@@ -18,9 +18,10 @@ class body:
                 li.add_match(f.unify(li))
             for c in contextList:
                 li.add_match(c.unify(li))
-            # li.show()
+            #li.show()
 
         new_fact_df = self.literals[0].df
+
         for i in range(0, len(self.literals) - 1):
             if new_fact_df.empty:
                 return
@@ -34,7 +35,7 @@ class body:
                         .reset_index(drop=True)
             else:
                 return
-        # print(new_fact_df)
+        #print(new_fact_df)
 
         resolutions = []
         for _, row in new_fact_df.iterrows():
@@ -65,9 +66,13 @@ class body:
 
     @staticmethod
     def parseBody(line):
+        constant_value_pattern = re.compile(r'[a-z|\d_]*')
+        variable_pattern = re.compile(r'[A-Z][A-Z|\d_]*')
         literal_or_expression_pattern = re.compile(
-            r'([\s]*[a-z|$][a-z|\d_]*[\s]*\([\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*\)[\s]*(?:@[\s]*[a-z|A-Z]['
-            r'a-z|A-Z\d_+\s]*)?|[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*!?=[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*)')
+            r'([\s]*[a-z|$][a-z|\d_]*[\s]*'
+            r'\([\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*\)[\s]*'
+            r'(?:@[\s]*[a-z|A-Z][a-z|A-Z\d_+\s]*)?'
+            r'|[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*!?=[\s]*[a-z|A-Z][a-z|A-Z\d_,\s]*[\s]*)')
 
         expression_pattern = re.compile(
             r'[\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*([!]?=)[\s]*([a-z|A-Z][a-z|A-Z\d_,\s]*)[\s]*')
@@ -83,9 +88,33 @@ class body:
                 if m:
                     expression_components = list(m.groups())
                     if expression_components[1] == '!=':
-                        expression_list.append(unequal([variable(expression_components[0]), variable(expression_components[2])]))
+                        if constant_value_pattern.fullmatch(expression_components[0]):
+                            expression_components[0] = expression_components[0]
+                        elif variable_pattern.fullmatch(expression_components[0]):
+                            expression_components[0] = variable(expression_components[0])
+                        else:
+                            return None
+                        if constant_value_pattern.fullmatch(expression_components[2]):
+                            expression_components[2] = expression_components[2]
+                        elif variable_pattern.fullmatch(expression_components[2]):
+                            expression_components[2] = variable(expression_components[2])
+                        else:
+                            return None
+                        expression_list.append(unequal([expression_components[0], expression_components[2]]))
                     elif expression_components[1] == '=':
-                        expression_list.append(equal([variable(expression_components[0]), variable(expression_components[2])]))
+                        if constant_value_pattern.fullmatch(expression_components[0]):
+                            expression_components[0] = expression_components[0]
+                        elif variable_pattern.fullmatch(expression_components[0]):
+                            expression_components[0] = variable(expression_components[0])
+                        else:
+                            return None
+                        if constant_value_pattern.fullmatch(expression_components[2]):
+                            expression_components[2] = expression_components[2]
+                        elif variable_pattern.fullmatch(expression_components[2]):
+                            expression_components[2] = variable(expression_components[2])
+                        else:
+                            return None
+                        expression_list.append(equal([expression_components[0], expression_components[2]]))
                     else:
                         return None
                 else:

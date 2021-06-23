@@ -9,8 +9,8 @@ from AnnoLog.rule import rule
 cwd = os.getcwd()
 sepa = os.sep
 path = f'{cwd}{sepa}'
-codefile_name = 'test/code1.txt'  # input('code file : ')
-contextfile_name = 'test/context1.txt'  # input('context file : ')
+codefile_name = 'test/code2.txt'  # input('code file : ')
+contextfile_name = 'test/context2.txt'  # input('context file : ')
 codefile = path + codefile_name
 contextfile = path + contextfile_name
 
