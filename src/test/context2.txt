@@ -1,0 +1,9 @@
+allpriv={'access':['name','address','phone','dob','history'], 'query':['select * from name,address,phone,dob,history']}
+userpriv={'access':['name','address','phone','dob','none'],'query':['select * from name,address,phone,dob']}
+drpriv={'access':['name','phone','dob','history','none'],'query':['select * from name,phone,dob,history']}
+nursepriv={'access':['name','history','none','none','none'],'query':['select * from name,history']}
+viewpriv={'access':['name','none','none','none','none'],'query':['select * from name']}
+rc1={'location':['in_hospital'],'role':['dr'],'time':['morning'],'priv':['allpriv']}
+rc2={'location':['out_hospital'],'role':['dr'],'time':['morning','night'],'priv':['viewpriv']}
+rc3={'location':['in_hospital'],'role':['user'],'time':['morning'],'priv':['userpriv']}
+rc4={'location':['out_hospital'],'role':['user'],'time':['morning'],'priv':['userpriv']}

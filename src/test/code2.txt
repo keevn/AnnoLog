@@ -1,0 +1,7 @@
+u(zaki,admin).
+u(b,user).
+u(zaki,user).
+u(X,Y)@C:-u(X,Y),role(Y)@C.
+u(X,Y)@C+W:-u(X,Y)@C,u(X,Z)@W,Y!=Z.
+priv(X,Y)@C:-u(X,Z)@C,priv(Y)@C.
+priv(X,Y)@C+W:-priv(X,Z)@C,priv(X,Y)@W,Z!=Y.
