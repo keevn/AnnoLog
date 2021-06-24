@@ -25,6 +25,7 @@ class query(literal):
                 if isinstance(ct.name, variable):
                     if str(ct.name) in resolution:
                         ctList.append(context(resolution[str(ct.name)]))
+                        print(str(ct.name), "=", resolution[str(ct.name)], ".")
                 else:
                     ctList.append(ct)
         if len(ctList) == 0:
