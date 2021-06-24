@@ -95,26 +95,31 @@ class queryCase(unittest.TestCase):
         factList = []
         contextList = []
         rules = []
+        print('\nfacts and rules :')
+        print('------------------------')
         for line in fileinput.input(files=codefile):
             f = fact.parseFact(line.strip())
             if f is not None:
                 factList.append(f)
+                print(f)
 
             r = rule.parseRule(line.strip())
             if r is not None:
                 rules.append(r)
+                print(r)
 
+        print('\ncontexts : ')
+        print('------------------------')
         for line in fileinput.input(files=contextfile):
             ct = context.parseContext(line.strip())
 
             if ct is not None:
                 contextList.append(ct)
+                print(ct)
 
         contelogCode = ConteLog(factList, contextList, rules)
 
         contelogCode.unify()
-
-        print(str(contelogCode))
 
         for line in fileinput.input(files=queryfile):
             query_literal = query.parseQuery(line.strip())
