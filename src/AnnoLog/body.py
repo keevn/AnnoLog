@@ -24,7 +24,7 @@ class body:
 
         for i in range(0, len(self.literals) - 1):
             if new_fact_df.empty:
-                return
+                return None
             elif not self.literals[i + 1].df.empty:
                 common_variables = list(set(new_fact_df.columns).intersection(set(self.literals[i + 1].df.columns)))
                 if len(common_variables) > 0:
@@ -34,13 +34,15 @@ class body:
                     new_fact_df = new_fact_df.merge(self.literals[i + 1].df, how='cross').drop_duplicates() \
                         .reset_index(drop=True)
             else:
-                return
+                return None
         #print(new_fact_df)
 
         resolutions = []
         for _, row in new_fact_df.iterrows():
             resolutions.append(row.to_dict())
 
+        # defer the evaluation of a built-in predicate
+        # evaluation expressions after predicates
         self.resolutions = []
         if self.expressions is not None:
             for expression in self.expressions:

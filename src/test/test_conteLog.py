@@ -68,7 +68,6 @@ class conteLogCase(unittest.TestCase):
         for ct in contextList:
             print(ct)
 
-
         contelogCode = ConteLog(factList, contextList, rules)
 
         contelogCode.unify()
@@ -152,8 +151,9 @@ class conteLogCase(unittest.TestCase):
 
         # across_translation(X, Y) @ C + W: -all_translations(Z, X) @ C, all_translations(Z, Y) @ W.
 
-        h = head('across_translation', [variable('X'), variable('Y')], ct=[context(variable('C')),context(variable('W'))])
-        l1 = literal('all_translations', [variable('Z'),variable('X')], ct=[context(variable('C'))])
+        h = head('across_translation', [variable('X'), variable('Y')],
+                 ct=[context(variable('C')), context(variable('W'))])
+        l1 = literal('all_translations', [variable('Z'), variable('X')], ct=[context(variable('C'))])
         l2 = literal('all_translations', [variable('Z'), variable('Y')], ct=[context(variable('W'))])
         e1 = unequal([variable('C'), variable('W')])
 
